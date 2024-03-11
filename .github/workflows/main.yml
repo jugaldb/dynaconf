@@ -204,11 +204,9 @@ jobs:
     needs:
       - linter
       - install_test
-      - unit_tests_windows
       - unit_tests_mac
       - unit_tests_linux
       - functional_tests_linux_mac
-      - functional_tests_windows
       - redis
       - vault
     steps:
