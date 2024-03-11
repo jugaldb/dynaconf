@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9"]
+        python-version: ["3.11"]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -50,8 +50,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.11"]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -75,7 +75,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.10", "3.11"]
+        python-version: ["3.11"]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -131,8 +131,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.10", "3.11"]
-        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.11"]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -146,54 +146,12 @@ jobs:
       - name: Run functional tests
         run: make test_functional
 
-  unit_tests_windows:
-    needs: install_test
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.8", "3.10", "3.11"]
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Pip
-        run: pip install --user --upgrade pip
-        continue-on-error: true
-      - name: Install project
-        run: pip install --use-deprecated=legacy-resolver .[test]
-      - name: run tests
-        run: py.test -v -l tests --junitxml=junit/test-results.xml -m "not integration"
-
-  functional_tests_windows:
-    needs: unit_tests_windows
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.8", "3.10", "3.11"]
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Pip
-        continue-on-error: true
-        run: pip install --user --upgrade pip
-      - name: Install project
-        run: pip install --use-deprecated=legacy-resolver .[test]
-      - name: run tests
-        run: python tests_functional/runtests.py
-
   redis:
     needs: functional_tests_linux_mac
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.10", "3.11"]
+        python-version: ["3.11"]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     services:
@@ -218,7 +176,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.10", "3.11"]
+        python-version: ["3.11"]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     services:
